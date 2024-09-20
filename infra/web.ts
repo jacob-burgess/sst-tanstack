@@ -6,7 +6,7 @@ export const www = new sst.aws.TanstackStart("Site", {
     name: "www." + domain,
     dns: sst.cloudflare.dns(),
   },
-  path: "./packages/web",
+  path: "./packages/www",
   link: [database],
 });
 

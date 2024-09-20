@@ -1,5 +1,5 @@
 {
-  "name": "@sst-tanstack/web",
+  "name": "@sst-tanstack/www",
   "private": true,
   "sideEffects": false,
   "type": "module",
