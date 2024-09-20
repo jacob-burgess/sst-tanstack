@@ -2,10 +2,23 @@
   "name": "sst-tanstack",
   "module": "index.ts",
   "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "sst dev",
+    "sso": "aws sso login --sso-session=boogie",
+    "typecheck": "bun --filter=* typecheck"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
+    "@types/aws-lambda": "8.10.145",
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "sst": "3.1.28"
   }
 }

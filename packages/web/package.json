@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@sst-tanstack/web",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -11,6 +11,7 @@
     "format": "prettier --write '**/*' --ignore-unknown"
   },
   "dependencies": {
+    "@sst-tanstack/core": "workspace:*",
     "@tanstack/react-query": "^5.56.2",
     "@tanstack/react-query-devtools": "^5.56.2",
     "@tanstack/react-router": "^1.58.3",
