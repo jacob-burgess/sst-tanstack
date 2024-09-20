@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "type": "module",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "exports": {
+    ".": "./src/index.ts",
     "./*": "./src/*.ts"
   },
   "scripts": {
