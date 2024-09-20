@@ -1,3 +1,4 @@
+import { database } from "./database";
 import { domain } from "./domain";
 
 export const www = new sst.aws.TanstackStart("Site", {
@@ -6,7 +7,7 @@ export const www = new sst.aws.TanstackStart("Site", {
     dns: sst.cloudflare.dns(),
   },
   path: "./packages/web",
-  // link: [api],
+  link: [database],
 });
 
 export const outputs = {

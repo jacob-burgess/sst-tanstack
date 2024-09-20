@@ -1,14 +1,25 @@
 {
   "name": "@sst-tanstack/core",
-  "private": true,
+  "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "typecheck": "tsc --noEmit"
-  },
+  "sideEffects": false,
   "exports": {
-    ".": "./src/index.ts"
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "db": "sst shell drizzle-kit",
+    "db:push": "sst shell drizzle-kit push"
+  },
+  "devDependencies": {
+    "@types/bun": "1.1.5"
   },
   "dependencies": {
-    "@tsconfig/node20": "20.1.4"
+    "@planetscale/database": "1.18.0",
+    "@tsconfig/node20": "20.1.4",
+    "drizzle-kit": "0.21.1",
+    "drizzle-orm": "0.30.10",
+    "sst": "3.1.26",
+    "zod": "3.23.8"
   }
 }
