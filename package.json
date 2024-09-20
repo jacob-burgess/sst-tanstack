@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "sst dev",
+    "deploy": "sst deploy",
     "sso": "aws sso login --sso-session=boogie",
     "typecheck": "bun --filter=* typecheck"
   },
