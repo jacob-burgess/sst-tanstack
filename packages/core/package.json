@@ -1,0 +1,14 @@
+{
+  "name": "@sst-tanstack/core",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@tsconfig/node20": "20.1.4"
+  }
+}

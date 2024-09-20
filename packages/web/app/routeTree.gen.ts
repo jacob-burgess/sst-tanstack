@@ -11,10 +11,16 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as HelloImport } from './routes/hello'
 import { Route as IndexImport } from './routes/index'
 import { Route as BoardsBoardIdImport } from './routes/boards.$boardId'
 
 // Create/Update Routes
+
+const HelloRoute = HelloImport.update({
+  path: '/hello',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   path: '/',
@@ -37,6 +43,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/hello': {
+      id: '/hello'
+      path: '/hello'
+      fullPath: '/hello'
+      preLoaderRoute: typeof HelloImport
+      parentRoute: typeof rootRoute
+    }
     '/boards/$boardId': {
       id: '/boards/$boardId'
       path: '/boards/$boardId'
@@ -51,36 +64,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/hello': typeof HelloRoute
   '/boards/$boardId': typeof BoardsBoardIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/hello': typeof HelloRoute
   '/boards/$boardId': typeof BoardsBoardIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/hello': typeof HelloRoute
   '/boards/$boardId': typeof BoardsBoardIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/boards/$boardId'
+  fullPaths: '/' | '/hello' | '/boards/$boardId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/boards/$boardId'
-  id: '__root__' | '/' | '/boards/$boardId'
+  to: '/' | '/hello' | '/boards/$boardId'
+  id: '__root__' | '/' | '/hello' | '/boards/$boardId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  HelloRoute: typeof HelloRoute
   BoardsBoardIdRoute: typeof BoardsBoardIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  HelloRoute: HelloRoute,
   BoardsBoardIdRoute: BoardsBoardIdRoute,
 }
 
@@ -97,11 +115,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/hello",
         "/boards/$boardId"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/hello": {
+      "filePath": "hello.tsx"
     },
     "/boards/$boardId": {
       "filePath": "boards.$boardId.tsx"
