@@ -17,5 +17,18 @@ declare module "sst" {
       "type": "sst.aws.TanstackStart"
       "url": string
     }
+    "VideoProcessing": {
+      "type": "sst.aws.Queue"
+      "url": string
+    }
+    "VideoProcessingDLQ": {
+      "type": "sst.aws.Queue"
+      "url": string
+    }
+    "VideoPublisher": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { Linkable } from "../.sst/platform/src/components";
 
 const mysql = planetscale.getDatabaseOutput({
-  name: "killtony",
+  name: "boogie",
   organization: "boogie",
 });
 
