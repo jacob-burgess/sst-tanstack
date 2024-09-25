@@ -2,6 +2,11 @@ const dlq = new sst.aws.Queue("VideoProcessingDLQ");
 
 export const videoProcessingQueue = new sst.aws.Queue("VideoProcessing", {
   dlq: dlq.arn,
+  transform: {
+    queue(args, opts, name) {
+      args.visibilityTimeoutSeconds = 10 * 60; // 10 minutes
+    },
+  },
 });
 
 videoProcessingQueue.subscribe({
