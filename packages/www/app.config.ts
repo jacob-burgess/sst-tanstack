@@ -2,7 +2,7 @@ import { defineConfig } from "@tanstack/start/config";
 import tsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  deployment: {
+  server: {
     preset: "aws-lambda-streaming",
   },
   vite: {
