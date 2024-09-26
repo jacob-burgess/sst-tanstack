@@ -7,14 +7,14 @@ import {
   PlanetScalePreparedQueryHKT,
   PlanetscaleQueryResultHKT,
 } from "drizzle-orm/planetscale-serverless";
-import { db } from ".";
+import { db, schema } from ".";
 import { createContext } from "../context";
 
 export type Transaction = MySqlTransaction<
   PlanetscaleQueryResultHKT,
   PlanetScalePreparedQueryHKT,
-  Record<string, never>,
-  ExtractTablesWithRelations<Record<string, never>>
+  typeof schema,
+  ExtractTablesWithRelations<typeof schema>
 >;
 
 type TxOrDb = Transaction | typeof db;
