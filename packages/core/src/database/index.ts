@@ -2,6 +2,7 @@ import { Client } from "@planetscale/database";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
 import { Resource } from "sst";
 export * from "drizzle-orm";
+import * as embeddingSchema from "../embedding/embedding.sql";
 import * as episodeSchema from "../episode/episode.sql";
 import * as guestSchema from "../guest/guest.sql";
 import * as personSchema from "../person/person.sql";
@@ -10,6 +11,7 @@ import * as venueSchema from "../venue/venue.sql";
 import * as videoSchema from "../video/video.sql";
 
 export const schema = {
+  ...embeddingSchema,
   ...episodeSchema,
   ...guestSchema,
   ...personSchema,
