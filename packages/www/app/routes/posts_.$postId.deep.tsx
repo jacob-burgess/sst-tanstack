@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { postQueryOptions } from "../utils/posts";
-import { PostErrorComponent } from "./posts.$postId";
+import { postQueryOptions } from "~/utils/posts";
+import { PostErrorComponent } from "~/routes/posts.$postId";
 
 export const Route = createFileRoute("/posts/$postId/deep")({
   loader: async ({ params: { postId }, context }) => {
