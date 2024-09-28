@@ -15,8 +15,12 @@ import { Route as RedirectImport } from './routes/redirect'
 import { Route as PostsImport } from './routes/posts'
 import { Route as DeferredImport } from './routes/deferred'
 import { Route as LayoutImport } from './routes/_layout'
+import { Route as SearchRouteImport } from './routes/search/route'
+import { Route as EpisodesRouteImport } from './routes/episodes/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as SearchIndexImport } from './routes/search/index'
 import { Route as PostsIndexImport } from './routes/posts.index'
+import { Route as EpisodesIndexImport } from './routes/episodes/index'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
 import { Route as LayoutLayout2Import } from './routes/_layout/_layout-2'
 import { Route as PostsPostIdDeepImport } from './routes/posts_.$postId.deep'
@@ -45,14 +49,34 @@ const LayoutRoute = LayoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const SearchRouteRoute = SearchRouteImport.update({
+  path: '/search',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EpisodesRouteRoute = EpisodesRouteImport.update({
+  path: '/episodes',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
+const SearchIndexRoute = SearchIndexImport.update({
+  path: '/',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+
 const PostsIndexRoute = PostsIndexImport.update({
   path: '/',
   getParentRoute: () => PostsRoute,
+} as any)
+
+const EpisodesIndexRoute = EpisodesIndexImport.update({
+  path: '/',
+  getParentRoute: () => EpisodesRouteRoute,
 } as any)
 
 const PostsPostIdRoute = PostsPostIdImport.update({
@@ -89,6 +113,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/episodes': {
+      id: '/episodes'
+      path: '/episodes'
+      fullPath: '/episodes'
+      preLoaderRoute: typeof EpisodesRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRoute
     }
     '/_layout': {
@@ -133,12 +171,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsPostIdImport
       parentRoute: typeof PostsImport
     }
+    '/episodes/': {
+      id: '/episodes/'
+      path: '/'
+      fullPath: '/episodes/'
+      preLoaderRoute: typeof EpisodesIndexImport
+      parentRoute: typeof EpisodesRouteImport
+    }
     '/posts/': {
       id: '/posts/'
       path: '/'
       fullPath: '/posts/'
       preLoaderRoute: typeof PostsIndexImport
       parentRoute: typeof PostsImport
+    }
+    '/search/': {
+      id: '/search/'
+      path: '/'
+      fullPath: '/search/'
+      preLoaderRoute: typeof SearchIndexImport
+      parentRoute: typeof SearchRouteImport
     }
     '/_layout/_layout-2/layout-a': {
       id: '/_layout/_layout-2/layout-a'
@@ -165,6 +217,30 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
+
+interface EpisodesRouteRouteChildren {
+  EpisodesIndexRoute: typeof EpisodesIndexRoute
+}
+
+const EpisodesRouteRouteChildren: EpisodesRouteRouteChildren = {
+  EpisodesIndexRoute: EpisodesIndexRoute,
+}
+
+const EpisodesRouteRouteWithChildren = EpisodesRouteRoute._addFileChildren(
+  EpisodesRouteRouteChildren,
+)
+
+interface SearchRouteRouteChildren {
+  SearchIndexRoute: typeof SearchIndexRoute
+}
+
+const SearchRouteRouteChildren: SearchRouteRouteChildren = {
+  SearchIndexRoute: SearchIndexRoute,
+}
+
+const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
+  SearchRouteRouteChildren,
+)
 
 interface LayoutLayout2RouteChildren {
   LayoutLayout2LayoutARoute: typeof LayoutLayout2LayoutARoute
@@ -205,12 +281,16 @@ const PostsRouteWithChildren = PostsRoute._addFileChildren(PostsRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/episodes': typeof EpisodesRouteRouteWithChildren
+  '/search': typeof SearchRouteRouteWithChildren
   '': typeof LayoutLayout2RouteWithChildren
   '/deferred': typeof DeferredRoute
   '/posts': typeof PostsRouteWithChildren
   '/redirect': typeof RedirectRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/episodes/': typeof EpisodesIndexRoute
   '/posts/': typeof PostsIndexRoute
+  '/search/': typeof SearchIndexRoute
   '/layout-a': typeof LayoutLayout2LayoutARoute
   '/layout-b': typeof LayoutLayout2LayoutBRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
@@ -222,7 +302,9 @@ export interface FileRoutesByTo {
   '/deferred': typeof DeferredRoute
   '/redirect': typeof RedirectRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/episodes': typeof EpisodesIndexRoute
   '/posts': typeof PostsIndexRoute
+  '/search': typeof SearchIndexRoute
   '/layout-a': typeof LayoutLayout2LayoutARoute
   '/layout-b': typeof LayoutLayout2LayoutBRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
@@ -231,13 +313,17 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/episodes': typeof EpisodesRouteRouteWithChildren
+  '/search': typeof SearchRouteRouteWithChildren
   '/_layout': typeof LayoutRouteWithChildren
   '/deferred': typeof DeferredRoute
   '/posts': typeof PostsRouteWithChildren
   '/redirect': typeof RedirectRoute
   '/_layout/_layout-2': typeof LayoutLayout2RouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
+  '/episodes/': typeof EpisodesIndexRoute
   '/posts/': typeof PostsIndexRoute
+  '/search/': typeof SearchIndexRoute
   '/_layout/_layout-2/layout-a': typeof LayoutLayout2LayoutARoute
   '/_layout/_layout-2/layout-b': typeof LayoutLayout2LayoutBRoute
   '/posts/$postId/deep': typeof PostsPostIdDeepRoute
@@ -247,12 +333,16 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/episodes'
+    | '/search'
     | ''
     | '/deferred'
     | '/posts'
     | '/redirect'
     | '/posts/$postId'
+    | '/episodes/'
     | '/posts/'
+    | '/search/'
     | '/layout-a'
     | '/layout-b'
     | '/posts/$postId/deep'
@@ -263,20 +353,26 @@ export interface FileRouteTypes {
     | '/deferred'
     | '/redirect'
     | '/posts/$postId'
+    | '/episodes'
     | '/posts'
+    | '/search'
     | '/layout-a'
     | '/layout-b'
     | '/posts/$postId/deep'
   id:
     | '__root__'
     | '/'
+    | '/episodes'
+    | '/search'
     | '/_layout'
     | '/deferred'
     | '/posts'
     | '/redirect'
     | '/_layout/_layout-2'
     | '/posts/$postId'
+    | '/episodes/'
     | '/posts/'
+    | '/search/'
     | '/_layout/_layout-2/layout-a'
     | '/_layout/_layout-2/layout-b'
     | '/posts/$postId/deep'
@@ -285,6 +381,8 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EpisodesRouteRoute: typeof EpisodesRouteRouteWithChildren
+  SearchRouteRoute: typeof SearchRouteRouteWithChildren
   LayoutRoute: typeof LayoutRouteWithChildren
   DeferredRoute: typeof DeferredRoute
   PostsRoute: typeof PostsRouteWithChildren
@@ -294,6 +392,8 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EpisodesRouteRoute: EpisodesRouteRouteWithChildren,
+  SearchRouteRoute: SearchRouteRouteWithChildren,
   LayoutRoute: LayoutRouteWithChildren,
   DeferredRoute: DeferredRoute,
   PostsRoute: PostsRouteWithChildren,
@@ -314,6 +414,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/episodes",
+        "/search",
         "/_layout",
         "/deferred",
         "/posts",
@@ -323,6 +425,18 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/episodes": {
+      "filePath": "episodes/route.tsx",
+      "children": [
+        "/episodes/"
+      ]
+    },
+    "/search": {
+      "filePath": "search/route.tsx",
+      "children": [
+        "/search/"
+      ]
     },
     "/_layout": {
       "filePath": "_layout.tsx",
@@ -355,9 +469,17 @@ export const routeTree = rootRoute
       "filePath": "posts.$postId.tsx",
       "parent": "/posts"
     },
+    "/episodes/": {
+      "filePath": "episodes/index.tsx",
+      "parent": "/episodes"
+    },
     "/posts/": {
       "filePath": "posts.index.tsx",
       "parent": "/posts"
+    },
+    "/search/": {
+      "filePath": "search/index.tsx",
+      "parent": "/search"
     },
     "/_layout/_layout-2/layout-a": {
       "filePath": "_layout/_layout-2/layout-a.tsx",

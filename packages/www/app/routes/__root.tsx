@@ -9,8 +9,9 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Body, Head, Html, Meta, Scripts } from "@tanstack/start";
 import * as React from "react";
-import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
-import { NotFound } from "~/components/NotFound";
+import { DefaultCatchBoundary } from "~/components/default-catch-boundary";
+import { NotFound } from "~/components/not-found";
+import { siteConfig } from "~/lib/config/site";
 import { seo } from "~/lib/utils/seo";
 // @ts-expect-error
 import appCss from "~/styles/app.css?url";
@@ -27,8 +28,10 @@ export const Route = createRootRouteWithContext<{
       content: "width=device-width, initial-scale=1",
     },
     ...seo({
-      title: "Kill Tony - World's #1 Live Podcast",
-      description: `Discover the best moments from the Kill Tony podcast. Search through episodes, comedians, Redban's mom, and more.`,
+      title: siteConfig.title,
+      description: siteConfig.description,
+      image: siteConfig.ogImage,
+      keywords: siteConfig.keywords.join(","),
     }),
   ],
   links: () => [
