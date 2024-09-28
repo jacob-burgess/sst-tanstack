@@ -1,7 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
-  Link,
   Outlet,
   ScrollRestoration,
   createRootRouteWithContext,
@@ -10,8 +9,12 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Body, Head, Html, Meta, Scripts } from "@tanstack/start";
 import * as React from "react";
 import { DefaultCatchBoundary } from "~/components/default-catch-boundary";
+import { TailwindIndicator } from "~/components/dev-tw-indicator";
 import { NotFound } from "~/components/not-found";
+import { SiteFooter } from "~/components/site-footer";
+import { SiteHeader } from "~/components/site-header";
 import { siteConfig } from "~/lib/config/site";
+import { cn } from "~/lib/utils/cn";
 import { seo } from "~/lib/utils/seo";
 // @ts-expect-error
 import appCss from "~/styles/app.css?url";
@@ -81,53 +84,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <Head>
         <Meta />
       </Head>
-      <Body>
-        <div className="p-2 flex gap-2 text-lg">
-          <Link
-            to="/"
-            activeProps={{
-              className: "font-bold",
-            }}
-            activeOptions={{ exact: true }}
-          >
-            Home
-          </Link>
-          <Link
-            to="/posts"
-            activeProps={{
-              className: "font-bold",
-            }}
-          >
-            Posts
-          </Link>
-          <Link
-            to="/layout-a"
-            activeProps={{
-              className: "font-bold",
-            }}
-          >
-            Layout
-          </Link>
-          <Link
-            to="/deferred"
-            activeProps={{
-              className: "font-bold",
-            }}
-          >
-            Deferred
-          </Link>
-          <Link
-            // @ts-expect-error
-            to="/this-route-does-not-exist"
-            activeProps={{
-              className: "font-bold",
-            }}
-          >
-            This Route Does Not Exist
-          </Link>
+      <Body className={cn("min-h-screen font-sans antialiased")}>
+        <div className="relative flex min-h-screen flex-col">
+          <SiteHeader />
+          <hr />
+          <main className="flex-1">{children}</main>
+          <hr />
+          <SiteFooter />
         </div>
-        <hr />
-        {children}
+        <TailwindIndicator />
         <ScrollRestoration />
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />

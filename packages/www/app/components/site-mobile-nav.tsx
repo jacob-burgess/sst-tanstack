@@ -14,7 +14,7 @@ export function SiteMobileNav() {
       <SheetTrigger asChild>
         <Button
           variant="ghost"
-          className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
+          className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
         >
           <svg
             strokeWidth="1.5"
@@ -49,16 +49,22 @@ export function SiteMobileNav() {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="pr-0">
-        <MobileLink to="/" className="flex items-center" onOpenChange={setOpen}>
-          <Icons.logo className="mr-2 h-4 w-4" />
-          <span className="font-bold">{siteConfig.name}</span>
-        </MobileLink>
-        <MobileLink to="/posts" onOpenChange={setOpen}>
-          Episodes
-        </MobileLink>
-        <MobileLink to="/deferred" onOpenChange={setOpen}>
-          Search
-        </MobileLink>
+        <nav className="flex flex-col gap-4">
+          <MobileLink
+            to="/"
+            className="flex items-center"
+            onOpenChange={setOpen}
+          >
+            <Icons.logo className="mr-2 h-4 w-4" />
+            <span className="font-bold">{siteConfig.name}</span>
+          </MobileLink>
+          <MobileLink to="/posts" onOpenChange={setOpen}>
+            Episodes
+          </MobileLink>
+          <MobileLink to="/deferred" onOpenChange={setOpen}>
+            Search
+          </MobileLink>
+        </nav>
       </SheetContent>
     </Sheet>
   );
@@ -82,7 +88,6 @@ function MobileLink({
     <Link
       to={to}
       onClick={() => {
-        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         router.navigate({ to });
         onOpenChange?.(false);
       }}
