@@ -1,15 +1,13 @@
 import type { QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
   Outlet,
   ScrollRestoration,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Body, Head, Html, Meta, Scripts } from "@tanstack/start";
 import * as React from "react";
 import { DefaultCatchBoundary } from "~/components/default-catch-boundary";
-import { TailwindIndicator } from "~/components/dev-tw-indicator";
+import { DevTools } from "~/components/dev-tools";
 import { NotFound } from "~/components/not-found";
 import { SiteFooter } from "~/components/site-footer";
 import { SiteHeader } from "~/components/site-header";
@@ -92,10 +90,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <hr />
           <SiteFooter />
         </div>
-        <TailwindIndicator />
         <ScrollRestoration />
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        <DevTools />
         <Scripts />
       </Body>
     </Html>
