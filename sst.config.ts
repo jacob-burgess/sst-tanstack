@@ -10,8 +10,10 @@ export default $config({
       providers: {
         aws: {
           region: "us-east-1",
-          profile:
-            input?.stage === "production" ? "boogie-production" : "boogie-dev",
+          profile: "boogie-dev",
+          // TODO: switch back when pscale vectors, sharing sst.Vector has to be in same account
+          // profile:
+          //   input?.stage === "production" ? "boogie-production" : "boogie-dev",
         },
         cloudflare: true,
         planetscale: true,
