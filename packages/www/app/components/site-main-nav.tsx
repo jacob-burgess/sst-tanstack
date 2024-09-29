@@ -15,6 +15,7 @@ export function SiteMainNav() {
       <nav className="flex items-center gap-4 text-sm lg:gap-6">
         <NavItem to="/episodes">Episodes</NavItem>
         <NavItem to="/search">Search</NavItem>
+        <NavItem to="/streaming">Streaming example</NavItem>
         {/* <NavItem to="/comedians">Comedians</NavItem> */}
       </nav>
     </div>

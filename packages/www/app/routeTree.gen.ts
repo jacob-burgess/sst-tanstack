@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as RedirectImport } from './routes/redirect'
 import { Route as DeferredImport } from './routes/deferred'
 import { Route as IndexImport } from './routes/index'
+import { Route as StreamingIndexImport } from './routes/streaming/index'
 import { Route as SearchIndexImport } from './routes/search/index'
 import { Route as EpisodesIndexImport } from './routes/episodes/index'
 import { Route as EpisodesYoutubeIdImport } from './routes/episodes/$youtubeId'
@@ -32,6 +33,11 @@ const DeferredRoute = DeferredImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StreamingIndexRoute = StreamingIndexImport.update({
+  path: '/streaming/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -96,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchIndexImport
       parentRoute: typeof rootRoute
     }
+    '/streaming/': {
+      id: '/streaming/'
+      path: '/streaming'
+      fullPath: '/streaming'
+      preLoaderRoute: typeof StreamingIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -108,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/episodes/$youtubeId': typeof EpisodesYoutubeIdRoute
   '/episodes': typeof EpisodesIndexRoute
   '/search': typeof SearchIndexRoute
+  '/streaming': typeof StreamingIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -117,6 +131,7 @@ export interface FileRoutesByTo {
   '/episodes/$youtubeId': typeof EpisodesYoutubeIdRoute
   '/episodes': typeof EpisodesIndexRoute
   '/search': typeof SearchIndexRoute
+  '/streaming': typeof StreamingIndexRoute
 }
 
 export interface FileRoutesById {
@@ -127,6 +142,7 @@ export interface FileRoutesById {
   '/episodes/$youtubeId': typeof EpisodesYoutubeIdRoute
   '/episodes/': typeof EpisodesIndexRoute
   '/search/': typeof SearchIndexRoute
+  '/streaming/': typeof StreamingIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -138,6 +154,7 @@ export interface FileRouteTypes {
     | '/episodes/$youtubeId'
     | '/episodes'
     | '/search'
+    | '/streaming'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -146,6 +163,7 @@ export interface FileRouteTypes {
     | '/episodes/$youtubeId'
     | '/episodes'
     | '/search'
+    | '/streaming'
   id:
     | '__root__'
     | '/'
@@ -154,6 +172,7 @@ export interface FileRouteTypes {
     | '/episodes/$youtubeId'
     | '/episodes/'
     | '/search/'
+    | '/streaming/'
   fileRoutesById: FileRoutesById
 }
 
@@ -164,6 +183,7 @@ export interface RootRouteChildren {
   EpisodesYoutubeIdRoute: typeof EpisodesYoutubeIdRoute
   EpisodesIndexRoute: typeof EpisodesIndexRoute
   SearchIndexRoute: typeof SearchIndexRoute
+  StreamingIndexRoute: typeof StreamingIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -173,6 +193,7 @@ const rootRouteChildren: RootRouteChildren = {
   EpisodesYoutubeIdRoute: EpisodesYoutubeIdRoute,
   EpisodesIndexRoute: EpisodesIndexRoute,
   SearchIndexRoute: SearchIndexRoute,
+  StreamingIndexRoute: StreamingIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -192,7 +213,8 @@ export const routeTree = rootRoute
         "/redirect",
         "/episodes/$youtubeId",
         "/episodes/",
-        "/search/"
+        "/search/",
+        "/streaming/"
       ]
     },
     "/": {
@@ -212,6 +234,9 @@ export const routeTree = rootRoute
     },
     "/search/": {
       "filePath": "search/index.tsx"
+    },
+    "/streaming/": {
+      "filePath": "streaming/index.tsx"
     }
   }
 }
