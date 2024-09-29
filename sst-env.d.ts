@@ -23,5 +23,15 @@ declare module "sst" {
       "removeFunction": string
       "type": "sst.aws.Vector"
     }
+    "TranscriptVectorsDatabase": {
+      "clusterArn": string
+      "database": string
+      "host": string
+      "password": string
+      "port": number
+      "secretArn": string
+      "type": "sst.aws.Postgres"
+      "username": string
+    }
   }
 }
