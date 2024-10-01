@@ -1,7 +1,6 @@
 import { Episode } from "@sst-tanstack/core/episode/episode";
-import { Await, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
-import { Suspense } from "react";
 import EpisodeCard from "~/components/episode-card";
 
 const listEpisodes = createServerFn(
@@ -29,41 +28,14 @@ function EpisodesPage() {
         <span className="text-red-600">Tony</span>
       </h1>
       {episodes?.length > 0 ? (
-        <>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {episodes.map((episode) => (
-              <EpisodeCard key={episode.id} episode={episode} />
-            ))}
-          </div>
-        </>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {episodes.map((episode) => (
+            <EpisodeCard key={episode.id} episode={episode} />
+          ))}
+        </div>
       ) : (
         <p>No episodes yet.</p>
       )}
-      {/* <div className="w-full">
-        <Suspend promise={episodes} />
-      </div> */}
     </section>
   );
 }
-
-const Suspend = ({ promise }: { promise: Promise<any> }) => {
-  return (
-    <Suspense fallback={"Loading..."}>
-      <Await promise={promise}>
-        {(data) => {
-          return data?.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {data.map((episode: Episode.Info) => (
-                  <EpisodeCard key={episode.id} episode={episode} />
-                ))}
-              </div>
-            </>
-          ) : (
-            <p>No episodes yet.</p>
-          );
-        }}
-      </Await>
-    </Suspense>
-  );
-};

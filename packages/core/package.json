@@ -9,8 +9,10 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "db": "sst shell drizzle-kit",
+    "db:pull": "sst shell drizzle-kit introspect",
     "db:push": "sst shell drizzle-kit push",
-    "seed": "sst shell bun run src/seed/index.ts"
+    "seed": "sst shell bun run src/seed/index.ts",
+    "vector-test": "sst shell bun run vector-test.ts"
   },
   "devDependencies": {
     "@types/bun": "1.1.5"
@@ -21,6 +23,7 @@
     "drizzle-kit": "0.21.1",
     "drizzle-orm": "0.30.10",
     "drizzle-zod": "^0.5.1",
+    "openai": "^4.66.1",
     "sst": "3.1.26",
     "ulid": "^2.3.0",
     "zod": "3.23.8"

@@ -5,33 +5,5 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
-    "Database": {
-      "database": string
-      "host": string
-      "password": string
-      "port": number
-      "type": "sst.sst.Linkable"
-      "username": string
-    }
-    "Site": {
-      "type": "sst.aws.TanstackStart"
-      "url": string
-    }
-    "TranscriptVectors": {
-      "putFunction": string
-      "queryFunction": string
-      "removeFunction": string
-      "type": "sst.aws.Vector"
-    }
-    "TranscriptVectorsDatabase": {
-      "clusterArn": string
-      "database": string
-      "host": string
-      "password": string
-      "port": number
-      "secretArn": string
-      "type": "sst.aws.Postgres"
-      "username": string
-    }
   }
 }
