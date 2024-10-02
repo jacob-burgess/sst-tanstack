@@ -21,54 +21,70 @@ export async function handler(event: any) {
       error: parsed.error,
     };
   }
-  const { ids } = parsed;
-  console.log(`parsed ${ids.length} ids`, ids);
+  console.log(`parsed ${parsed.ids.length} ids`, parsed.ids);
 
-  // get the data from the database
-  const data = await db
-    .select({
-      id: transcriptEmbeddingTable.id,
-      vector: transcriptEmbeddingTable.embedding,
-    })
-    .from(transcriptEmbeddingTable)
-    .where(
-      and(
-        inArray(transcriptEmbeddingTable.id, ids),
-        isNotNull(transcriptEmbeddingTable.embedding),
-        isNull(transcriptEmbeddingTable.vector)
-      )
-    );
-
-  if (data.length === 0) {
-    console.log("no results with the given ids bro");
-    return {
-      code: 404,
-      success: false,
-      error: "no results with the given ids bro",
-    };
+  const CHUNK_SIZE = 500;
+  // chunk ids into lists of CHUNK_SIZE
+  const chunkedIds: number[][] = [];
+  for (let i = 0; i < parsed.ids.length; i += CHUNK_SIZE) {
+    chunkedIds.push(parsed.ids.slice(i, i + CHUNK_SIZE));
   }
 
-  console.log(`Found ${data.length} records to update.`);
+  for (const ids of chunkedIds) {
+    try {
+      // get the data from the database
+      const data = await db
+        .select({
+          id: transcriptEmbeddingTable.id,
+          vector: transcriptEmbeddingTable.embedding,
+        })
+        .from(transcriptEmbeddingTable)
+        .where(
+          and(
+            inArray(transcriptEmbeddingTable.id, ids),
+            isNotNull(transcriptEmbeddingTable.embedding),
+            isNull(transcriptEmbeddingTable.vector)
+          )
+        );
 
-  // update the vectors
-  try {
-    await TranscriptEmbedding.updateVectorById(
-      data as TranscriptEmbedding.UpdateSchema
-    );
-  } catch (error) {
-    console.error("Error updating transcript embeddings", error);
-    return {
-      code: 500,
-      success: false,
-      error: "Error updating transcript embeddings",
-    };
+      if (data.length === 0) {
+        console.log("no results with the given ids bro");
+        return {
+          code: 404,
+          success: false,
+          error: "no results with the given ids bro",
+        };
+      }
+
+      console.log(`Found ${data.length} records to update.`);
+
+      // update the vectors
+      try {
+        await TranscriptEmbedding.updateVectorById(
+          data as TranscriptEmbedding.UpdateSchema
+        );
+      } catch (error) {
+        console.error("Error updating transcript embeddings", error);
+        return {
+          code: 500,
+          success: false,
+          error: "Error updating transcript embeddings",
+        };
+      }
+    } catch (error) {
+      console.error("Error processing records", error);
+      return {
+        code: 500,
+        success: false,
+        error: "Error processing records",
+      };
+    }
   }
 
   console.log("Finished processing all records.");
 
   return {
     success: true,
-    ids,
   };
 }
 

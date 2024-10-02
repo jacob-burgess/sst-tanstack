@@ -1,5 +1,6 @@
 import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
-import { TranscriptEmbedding } from "@sst-tanstack/core/embedding/transcript-embedding";
+import { asc, db, isNull } from "@sst-tanstack/core/database/index";
+import { transcriptEmbeddingTable } from "@sst-tanstack/core/embedding/embedding.sql";
 import { Resource } from "sst";
 
 const sqsClient = new SQSClient();
@@ -20,20 +21,24 @@ async function sendToQ(ids: number[]) {
   }
 }
 
-const BATCH_SIZE = 500;
+const BATCH_SIZE = 1000;
 
 export const handler = async (event: any) => {
   console.log("publisher function received request");
-  const limit = BATCH_SIZE;
-  let offset = 0;
-  const total = await TranscriptEmbedding.count({});
-  // const total = 50;
 
-  while (offset < total) {
-    const ids = await TranscriptEmbedding.listIds({ limit, offset });
-    console.log(`Sending batch of ${ids.length} messages to SQS`);
-    await sendToQ(ids);
-    offset += limit;
+  const allIds = await db
+    .select({ id: transcriptEmbeddingTable.id })
+    .from(transcriptEmbeddingTable)
+    .where(isNull(transcriptEmbeddingTable.vector))
+    .orderBy(asc(transcriptEmbeddingTable.id))
+    .then((rows) => rows.map((row) => row.id));
+
+  // send to sqs in batches of 1000
+  for (let i = 0; i < allIds.length; i += BATCH_SIZE) {
+    const batch = allIds.slice(i, i + BATCH_SIZE);
+    await sendToQ(batch);
+    console.log(`Sent batch of ${batch.length} ids to SQS`);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
   }
 
   return {
