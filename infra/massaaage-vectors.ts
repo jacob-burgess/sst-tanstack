@@ -16,12 +16,20 @@ massaaageQ.subscribe({
   timeout: "2 minutes",
   memory: "2 GB",
   link: [database],
+  environment: {
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  },
 });
 
 export const publisher = new sst.aws.Function("MassaaageVectorsPublisher", {
   handler: "./packages/functions/src/publisher.handler",
   url: true,
   link: [massaaageQ, database],
+  timeout: "10 minutes",
+  memory: "2 GB",
+  environment: {
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  },
 });
 
 export const outputs = {

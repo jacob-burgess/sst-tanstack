@@ -1,9 +1,17 @@
+import {
+  asc,
+  count as drizzleCount,
+  eq,
+  inArray,
+  isNull,
+  sql,
+  SQL,
+} from "drizzle-orm";
 import { z } from "zod";
-import { fn } from "../utils/fn";
 import { useTransaction } from "../database/transaction";
-import { transcriptEmbeddingTable } from "./embedding.sql";
-import { asc, eq, count as drizzleCount, sql, SQL, inArray } from "drizzle-orm";
 import { serializeVector } from "../database/types";
+import { fn } from "../utils/fn";
+import { transcriptEmbeddingTable } from "./embedding.sql";
 
 export module TranscriptEmbedding {
   export const Info = z.object({
@@ -116,6 +124,7 @@ export module TranscriptEmbedding {
       tx
         .select({ id: transcriptEmbeddingTable.id })
         .from(transcriptEmbeddingTable)
+        .where(isNull(transcriptEmbeddingTable.vector))
         .orderBy(asc(transcriptEmbeddingTable.id))
         .limit(limit)
         .offset(offset)

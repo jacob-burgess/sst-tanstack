@@ -34,7 +34,6 @@ export const handler = async (event: any) => {
     console.log(`Sending batch of ${ids.length} messages to SQS`);
     await sendToQ(ids);
     offset += limit;
-    await new Promise((resolve) => setTimeout(resolve, 5000));
   }
 
   return {
