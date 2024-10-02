@@ -7,14 +7,15 @@ import {
   text,
   varchar,
 } from "drizzle-orm/mysql-core";
-import { id, timestamps } from "../database/types";
+import { id, timestamps, vector } from "../database/types";
 import { episodeTable } from "../episode/episode.sql";
 
 export const transcriptEmbeddingTable = mysqlTable("transcript_embedding", {
   ...id,
   ...timestamps,
   text: text("text"),
-  vector: json("embedding").$type<number[]>(),
+  embedding: json("embedding").$type<number[]>(),
+  vector: vector("vector", { length: 1536 }),
   episodeId: bigint("episode_id", { mode: "number" })
     .references(() => episodeTable.id, {
       onDelete: "cascade",

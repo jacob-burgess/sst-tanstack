@@ -44,7 +44,7 @@ export type DistanceMetric = "DOT" | "COSINE" | "L2" | "L2_SQUARED";
  * Custom type for Vector columns in planetscale
  */
 export const vector = customType<{
-  data: ArrayBuffer;
+  data: Buffer;
   config: { length: number };
   configRequired: true;
   driverData: Buffer;
@@ -53,7 +53,7 @@ export const vector = customType<{
     return `VECTOR(${config.length})`;
   },
   fromDriver(value) {
-    return value.buffer as ArrayBuffer;
+    return value;
   },
   toDriver(value) {
     return Buffer.from(value);
@@ -72,7 +72,8 @@ export function serializeVector(vector: number[]): Buffer {
  * Calculate the distance between an embedding and a column using a specified metric.
  */
 export const distance = (
-  embedding: string,
+  embedding: number[],
   column: MySqlColumn,
   metric: DistanceMetric = "COSINE" // Default distance metric
-) => sql<number>`DISTANCE(TO_VECTOR(${embedding}), ${column}, ${metric})`;
+) =>
+  sql<number>`DISTANCE(TO_VECTOR(${JSON.stringify(embedding)}), ${column}, ${metric})`;

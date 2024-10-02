@@ -13,6 +13,19 @@ declare module "sst" {
       "type": "sst.sst.Linkable"
       "username": string
     }
+    "MassaaageVectorsDLQ": {
+      "type": "sst.aws.Queue"
+      "url": string
+    }
+    "MassaaageVectorsPublisher": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
+    "MassaaageVectorsQ": {
+      "type": "sst.aws.Queue"
+      "url": string
+    }
     "Site": {
       "type": "sst.aws.TanstackStart"
       "url": string
