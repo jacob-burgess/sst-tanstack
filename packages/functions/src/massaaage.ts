@@ -1,4 +1,10 @@
-import { and, db, inArray, isNotNull } from "@sst-tanstack/core/database/index";
+import {
+  and,
+  db,
+  inArray,
+  isNotNull,
+  isNull,
+} from "@sst-tanstack/core/database/index";
 import { transcriptEmbeddingTable } from "@sst-tanstack/core/embedding/embedding.sql";
 import { TranscriptEmbedding } from "@sst-tanstack/core/embedding/transcript-embedding";
 import { z } from "zod";
@@ -28,7 +34,8 @@ export async function handler(event: any) {
     .where(
       and(
         inArray(transcriptEmbeddingTable.id, ids),
-        isNotNull(transcriptEmbeddingTable.embedding)
+        isNotNull(transcriptEmbeddingTable.embedding),
+        isNull(transcriptEmbeddingTable.vector)
       )
     );
 
