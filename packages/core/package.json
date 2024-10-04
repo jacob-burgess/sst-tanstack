@@ -15,16 +15,16 @@
     "vector-test": "sst shell bun run vector-test.ts"
   },
   "devDependencies": {
-    "@types/bun": "1.1.5"
+    "@types/bun": "1.1.10"
   },
   "dependencies": {
-    "@planetscale/database": "1.18.0",
+    "@planetscale/database": "1.19.0",
     "@tsconfig/node20": "20.1.4",
-    "drizzle-kit": "0.21.1",
-    "drizzle-orm": "0.30.10",
+    "drizzle-kit": "0.24.2",
+    "drizzle-orm": "0.33.0",
     "drizzle-zod": "^0.5.1",
-    "openai": "^4.66.1",
-    "sst": "3.1.26",
+    "openai": "^4.67.1",
+    "sst": "^3.1.61",
     "ulid": "^2.3.0",
     "zod": "3.23.8"
   }
