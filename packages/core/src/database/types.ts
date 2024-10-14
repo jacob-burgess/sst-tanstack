@@ -50,7 +50,7 @@ export const vector = customType<{
   driverData: Buffer;
 }>({
   dataType(config) {
-    return `VECTOR(${config.length})`;
+    return `vector(${config.length})`;
   },
   fromDriver(value) {
     return value;

@@ -9,7 +9,8 @@ import {
 } from "drizzle-orm";
 import { z } from "zod";
 import { useTransaction } from "../database/transaction";
-import { serializeVector } from "../database/types";
+import { distance, serializeVector } from "../database/types";
+import { generateEmbedding } from "../openai";
 import { fn } from "../utils/fn";
 import { transcriptEmbeddingTable } from "./embedding.sql";
 
@@ -140,6 +141,37 @@ export module TranscriptEmbedding {
         .then((rows) => rows.at(0)?.count ?? 0)
     )
   );
+
+  export const SearchParams = z.object({
+    query: z.string(),
+    limit: z.number().optional().default(100),
+    offset: z.number().optional().default(0),
+  });
+  export type SearchParams = z.infer<typeof SearchParams>;
+
+  export const search = fn(SearchParams, async ({ query, limit, offset }) => {
+    const vector = await generateEmbedding(query);
+    if (!vector) {
+      console.error("error fetching vector");
+      return [];
+    }
+
+    return useTransaction(async (tx) =>
+      tx
+        .select({
+          id: transcriptEmbeddingTable.id,
+          text: transcriptEmbeddingTable.text,
+          episodeId: transcriptEmbeddingTable.episodeId,
+          startSecond: transcriptEmbeddingTable.startSecond,
+          endSecond: transcriptEmbeddingTable.endSecond,
+          distance: sql`${distance(vector, transcriptEmbeddingTable.vector)} as distance`,
+        })
+        .from(transcriptEmbeddingTable)
+        .orderBy(sql`distance desc`)
+        .limit(limit)
+        .offset(offset)
+    );
+  });
 
   const serialize = (
     embedding: typeof transcriptEmbeddingTable.$inferSelect

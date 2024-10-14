@@ -7,6 +7,7 @@ import * as episodeSchema from "../episode/episode.sql";
 import * as guestSchema from "../guest/guest.sql";
 import * as personSchema from "../person/person.sql";
 import * as setSchema from "../set/set.sql";
+import * as transcriptChunkSchema from "../transcript/transcript-chunk.sql";
 import * as venueSchema from "../venue/venue.sql";
 import * as videoSchema from "../video/video.sql";
 
@@ -16,11 +17,10 @@ export const schema = {
   ...guestSchema,
   ...personSchema,
   ...setSchema,
+  ...transcriptChunkSchema,
   ...venueSchema,
   ...videoSchema,
 };
-
-type Schema = typeof schema;
 
 const client = new Client({
   host: Resource.Database.host,

@@ -6,6 +6,7 @@ import { guestTable } from "../guest/guest.sql";
 import { setTable } from "../set/set.sql";
 import { venueTable } from "../venue/venue.sql";
 import { videoTable } from "../video/video.sql";
+import { transcriptChunkTable } from "../transcript/transcript-chunk.sql";
 
 export const episodeTable = mysqlTable("episode", {
   ...id,
@@ -35,4 +36,5 @@ export const episodeRelations = relations(episodeTable, ({ many, one }) => ({
   }),
   guests: many(guestTable),
   sets: many(setTable),
+  transcriptChunks: many(transcriptChunkTable),
 }));
