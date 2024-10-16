@@ -18,10 +18,10 @@
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
   "dependencies": {
-    "sst": "^3.1.61"
+    "sst": "^3.2.31"
   },
   "overrides": {
     "nitropack": "npm:nitropack-nightly@latest"
