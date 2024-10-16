@@ -6,7 +6,7 @@ export default defineConfig({
     preset: "aws-lambda-streaming",
   },
   vite: {
-    plugins: () => [
+    plugins: [
       tsConfigPaths({
         projects: ["./tsconfig.json"],
       }),

@@ -14,7 +14,6 @@ import { SiteHeader } from "~/components/site-header";
 import { siteConfig } from "~/lib/config/site";
 import { cn } from "~/lib/utils/cn";
 import { seo } from "~/lib/utils/seo";
-// @ts-expect-error
 import appCss from "~/styles/app.css?url";
 
 export const Route = createRootRouteWithContext<{
