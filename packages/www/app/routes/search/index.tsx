@@ -1,17 +1,22 @@
-import { TranscriptChunk } from '@sst-tanstack/core/transcript/transcript-chunk'
-import { createFileRoute } from '@tanstack/react-router'
-import { Card, CardContent, CardTitle } from '~/components/ui/card'
-import { search } from './-functions'
+import { TranscriptChunk } from "@sst-tanstack/core/transcript/transcript-chunk";
+import { createFileRoute } from "@tanstack/react-router";
+import { zodSearchValidator } from "@tanstack/router-zod-adapter";
+import { Card, CardContent, CardTitle } from "~/components/ui/card";
+import { search } from "./-functions";
 
-export const Route = createFileRoute('/search/')({
-  loader: async () => {
-    return await search({ query: 'sweet nothings in her ear' })
+export const Route = createFileRoute("/search/")({
+  validateSearch: zodSearchValidator(TranscriptChunk.SearchParams),
+  beforeLoad: async (props) => {
+    return { search: props.search };
+  },
+  loader: async ({ context }) => {
+    return await search(context.search);
   },
   component: () => <Search />,
-})
+});
 
 function Search() {
-  const results = Route.useLoaderData()
+  const results = Route.useLoaderData();
 
   return (
     <section className="flex flex-col items-center justify-center gap-12 px-4 py-16">
@@ -27,11 +32,11 @@ function Search() {
         </ul>
       </div>
     </section>
-  )
+  );
 }
 
 function SearchResultCard(props: { result: TranscriptChunk.SearchOut }) {
-  const { result } = props
+  const { result } = props;
   return (
     <Card className="flex items-start gap-6 rounded-lg p-6 shadow-lg">
       <a
@@ -44,5 +49,5 @@ function SearchResultCard(props: { result: TranscriptChunk.SearchOut }) {
         </CardContent>
       </a>
     </Card>
-  )
+  );
 }

@@ -21,6 +21,7 @@
     "@tanstack/react-router": "^1.58.18",
     "@tanstack/react-router-with-query": "^1.58.18",
     "@tanstack/router-devtools": "^1.58.18",
+    "@tanstack/router-zod-adapter": "^1.65.0",
     "@tanstack/start": "^1.58.18",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

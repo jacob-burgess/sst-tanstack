@@ -7,6 +7,7 @@ import { generateEmbedding } from "../openai";
 import { fn } from "../utils/fn";
 import { videoTable } from "../video/video.sql";
 import { transcriptChunkTable } from "./transcript-chunk.sql";
+import { fallback } from "@tanstack/router-zod-adapter";
 
 export module TranscriptChunk {
   export const Info = z.object({
@@ -25,9 +26,9 @@ export module TranscriptChunk {
   export type Info = z.infer<typeof Info>;
 
   export const SearchParams = z.object({
-    query: z.string(),
-    limit: z.number().optional().default(10),
-    offset: z.number().optional().default(0),
+    query: fallback(z.string(), ""),
+    limit: fallback(z.number(), 10),
+    offset: fallback(z.number(), 0),
   });
   export type SearchParams = z.infer<typeof SearchParams>;
 
