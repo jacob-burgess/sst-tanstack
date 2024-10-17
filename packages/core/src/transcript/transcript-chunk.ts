@@ -1,5 +1,4 @@
 import { eq, sql } from "drizzle-orm";
-import { z } from "zod";
 import { useTransaction } from "../database/transaction";
 import { distance } from "../database/types";
 import { episodeTable } from "../episode/episode.sql";
@@ -7,34 +6,16 @@ import { generateEmbedding } from "../openai";
 import { fn } from "../utils/fn";
 import { videoTable } from "../video/video.sql";
 import { transcriptChunkTable } from "./transcript-chunk.sql";
-import { fallback } from "@tanstack/router-zod-adapter";
+import { TranscriptChunkSchema } from "./transcript-chunk.schema";
 
 export module TranscriptChunk {
-  export const Info = z.object({
-    id: z.number(),
-    text: z.string(),
-    startSecond: z.number(),
-    endSecond: z.number(),
-    episode: z.object({
-      id: z.number(),
-      title: z.string(),
-      description: z.string(),
-      publishedAt: z.string(),
-      youtubeId: z.string(),
-    }),
-  });
-  export type Info = z.infer<typeof Info>;
-
-  export const SearchParams = z.object({
-    query: fallback(z.string(), "").default("The best damn band in the land"),
-    limit: fallback(z.number(), 10).default(10),
-    offset: fallback(z.number(), 0).default(0),
-  });
-  export type SearchParams = z.infer<typeof SearchParams>;
-
   export const search = fn(
-    SearchParams,
-    async ({ query, limit, offset }): Promise<SearchOut[]> => {
+    TranscriptChunkSchema.SearchParams,
+    async ({
+      query,
+      limit,
+      offset,
+    }): Promise<TranscriptChunkSchema.SearchOut[]> => {
       const vector = await generateEmbedding(query);
       if (!vector) {
         console.error("error fetching vector");
@@ -71,23 +52,4 @@ export module TranscriptChunk {
       );
     }
   );
-
-  export const SearchOut = z.object({
-    id: z.number(),
-    text: z.string(),
-    startSecond: z.number(),
-    endSecond: z.number(),
-    distance: z.number(),
-    episode: z.object({
-      id: z.number(),
-      youtubeId: z.string(),
-      number: z.number(),
-      title: z.string(),
-      description: z.string(),
-      // TODO: serialization issues on dates
-      // dateRecorded: z.string(),
-      // datePublished: z.string(),
-    }),
-  });
-  export type SearchOut = z.infer<typeof SearchOut>;
 }

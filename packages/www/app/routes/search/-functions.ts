@@ -1,4 +1,5 @@
 import { TranscriptChunk } from "@sst-tanstack/core/transcript/transcript-chunk";
+import { TranscriptChunkSchema } from "@sst-tanstack/core/transcript/transcript-chunk.schema";
 import { createServerFn } from "@tanstack/start";
 
 // TODO: I want to be able to do this: but i think tanstack must inject "use server", so it fails at runtime.
@@ -6,7 +7,7 @@ import { createServerFn } from "@tanstack/start";
 
 export const search = createServerFn(
   "GET",
-  async (search: TranscriptChunk.SearchParams) => {
+  async (search: TranscriptChunkSchema.SearchParams) => {
     return await TranscriptChunk.search(search);
   }
 );

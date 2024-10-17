@@ -1,11 +1,11 @@
-import { TranscriptChunk } from "@sst-tanstack/core/transcript/transcript-chunk";
 import { createFileRoute } from "@tanstack/react-router";
 import { zodSearchValidator } from "@tanstack/router-zod-adapter";
 import { Card, CardContent, CardTitle } from "~/components/ui/card";
 import { search } from "./-functions";
+import { TranscriptChunkSchema } from "@sst-tanstack/core/transcript/transcript-chunk.schema";
 
 export const Route = createFileRoute("/search/")({
-  validateSearch: zodSearchValidator(TranscriptChunk.SearchParams),
+  validateSearch: zodSearchValidator(TranscriptChunkSchema.SearchParams),
   beforeLoad: async (props) => {
     return { search: props.search };
   },
@@ -35,7 +35,7 @@ function Search() {
   );
 }
 
-function SearchResultCard(props: { result: TranscriptChunk.SearchOut }) {
+function SearchResultCard(props: { result: TranscriptChunkSchema.SearchOut }) {
   const { result } = props;
   return (
     <Card className="flex items-start gap-6 rounded-lg p-6 shadow-lg">
