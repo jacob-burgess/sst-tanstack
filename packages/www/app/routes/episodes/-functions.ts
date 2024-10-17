@@ -16,3 +16,10 @@ export const episodeByYoutubeId = createServerFn(
     return Episode.byYoutubeId(youtubeId);
   }
 );
+
+export const listEpisodes = createServerFn(
+  "GET",
+  async (params?: Episode.ListParams) => {
+    return Episode.list(params ?? {});
+  }
+);

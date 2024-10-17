@@ -1,25 +1,16 @@
-import { Episode } from "@sst-tanstack/core/episode/episode";
 import { createFileRoute } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/start";
 import EpisodeCard from "~/components/episode-card";
-
-const listEpisodes = createServerFn(
-  "GET",
-  async (params?: Episode.ListParams) => {
-    return Episode.list(params ?? {});
-  }
-);
+import { listEpisodes } from "./-functions";
 
 export const Route = createFileRoute("/episodes/")({
   loader: async () => {
-    const episodes = await listEpisodes({ limit: 9, offset: 0 });
-    return { episodes };
+    return await listEpisodes({ limit: 9, offset: 0 });
   },
   component: EpisodesPage,
 });
 
 function EpisodesPage() {
-  const { episodes } = Route.useLoaderData();
+  const episodes = Route.useLoaderData();
 
   return (
     <section className="flex flex-col items-center justify-center gap-12 px-4 py-16">
