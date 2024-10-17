@@ -10,9 +10,7 @@
     "typecheck": "tsc --noEmit",
     "db": "sst shell drizzle-kit",
     "db:pull": "sst shell drizzle-kit introspect",
-    "db:push": "sst shell drizzle-kit push",
-    "seed": "sst shell bun run src/seed/index.ts",
-    "vector-test": "sst shell bun run vector-test.ts"
+    "db:push": "sst shell drizzle-kit push"
   },
   "devDependencies": {
     "@types/bun": "latest",
