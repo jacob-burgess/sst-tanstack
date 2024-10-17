@@ -15,7 +15,8 @@
     "vector-test": "sst shell bun run vector-test.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "sst": "^3.2.31"
   },
   "dependencies": {
     "@planetscale/database": "1.19.0",
@@ -24,7 +25,6 @@
     "drizzle-orm": "0.33.0",
     "drizzle-zod": "^0.5.1",
     "openai": "^4.67.3",
-    "sst": "^3.2.31",
     "ulid": "^2.3.0",
     "zod": "3.23.8"
   }

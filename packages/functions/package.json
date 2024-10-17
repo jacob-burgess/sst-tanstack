@@ -7,13 +7,13 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "sst": "^3.2.31"
   },
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.670.0",
     "@sst-tanstack/core": "workspace:",
     "@tsconfig/node20": "20.1.4",
-    "openai": "^4.67.3",
-    "sst": "3.2.31"
+    "openai": "^4.67.3"
   }
 }
