@@ -15,7 +15,6 @@ export default $config({
         },
         cloudflare: true,
         planetscale: true,
-        random: true,
       },
     };
   },
