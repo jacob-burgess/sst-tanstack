@@ -13,5 +13,9 @@ declare module "sst" {
       "type": "sst.sst.Linkable"
       "username": string
     }
+    "Site": {
+      "type": "sst.aws.TanstackStart"
+      "url": string
+    }
   }
 }

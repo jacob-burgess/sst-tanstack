@@ -11,8 +11,6 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as RedirectImport } from './routes/redirect'
-import { Route as DeferredImport } from './routes/deferred'
 import { Route as IndexImport } from './routes/index'
 import { Route as StreamingIndexImport } from './routes/streaming/index'
 import { Route as SearchIndexImport } from './routes/search/index'
@@ -20,16 +18,6 @@ import { Route as EpisodesIndexImport } from './routes/episodes/index'
 import { Route as EpisodesYoutubeIdImport } from './routes/episodes/$youtubeId'
 
 // Create/Update Routes
-
-const RedirectRoute = RedirectImport.update({
-  path: '/redirect',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const DeferredRoute = DeferredImport.update({
-  path: '/deferred',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   path: '/',
@@ -67,20 +55,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/deferred': {
-      id: '/deferred'
-      path: '/deferred'
-      fullPath: '/deferred'
-      preLoaderRoute: typeof DeferredImport
-      parentRoute: typeof rootRoute
-    }
-    '/redirect': {
-      id: '/redirect'
-      path: '/redirect'
-      fullPath: '/redirect'
-      preLoaderRoute: typeof RedirectImport
-      parentRoute: typeof rootRoute
-    }
     '/episodes/$youtubeId': {
       id: '/episodes/$youtubeId'
       path: '/episodes/$youtubeId'
@@ -116,8 +90,6 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/deferred': typeof DeferredRoute
-  '/redirect': typeof RedirectRoute
   '/episodes/$youtubeId': typeof EpisodesYoutubeIdRoute
   '/episodes': typeof EpisodesIndexRoute
   '/search': typeof SearchIndexRoute
@@ -126,8 +98,6 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/deferred': typeof DeferredRoute
-  '/redirect': typeof RedirectRoute
   '/episodes/$youtubeId': typeof EpisodesYoutubeIdRoute
   '/episodes': typeof EpisodesIndexRoute
   '/search': typeof SearchIndexRoute
@@ -137,8 +107,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/deferred': typeof DeferredRoute
-  '/redirect': typeof RedirectRoute
   '/episodes/$youtubeId': typeof EpisodesYoutubeIdRoute
   '/episodes/': typeof EpisodesIndexRoute
   '/search/': typeof SearchIndexRoute
@@ -149,26 +117,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/deferred'
-    | '/redirect'
     | '/episodes/$youtubeId'
     | '/episodes'
     | '/search'
     | '/streaming'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/deferred'
-    | '/redirect'
-    | '/episodes/$youtubeId'
-    | '/episodes'
-    | '/search'
-    | '/streaming'
+  to: '/' | '/episodes/$youtubeId' | '/episodes' | '/search' | '/streaming'
   id:
     | '__root__'
     | '/'
-    | '/deferred'
-    | '/redirect'
     | '/episodes/$youtubeId'
     | '/episodes/'
     | '/search/'
@@ -178,8 +135,6 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DeferredRoute: typeof DeferredRoute
-  RedirectRoute: typeof RedirectRoute
   EpisodesYoutubeIdRoute: typeof EpisodesYoutubeIdRoute
   EpisodesIndexRoute: typeof EpisodesIndexRoute
   SearchIndexRoute: typeof SearchIndexRoute
@@ -188,8 +143,6 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DeferredRoute: DeferredRoute,
-  RedirectRoute: RedirectRoute,
   EpisodesYoutubeIdRoute: EpisodesYoutubeIdRoute,
   EpisodesIndexRoute: EpisodesIndexRoute,
   SearchIndexRoute: SearchIndexRoute,
@@ -209,8 +162,6 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/deferred",
-        "/redirect",
         "/episodes/$youtubeId",
         "/episodes/",
         "/search/",
@@ -219,12 +170,6 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
-    },
-    "/deferred": {
-      "filePath": "deferred.tsx"
-    },
-    "/redirect": {
-      "filePath": "redirect.tsx"
     },
     "/episodes/$youtubeId": {
       "filePath": "episodes/$youtubeId.tsx"
